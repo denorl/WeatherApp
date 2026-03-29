@@ -21,23 +21,10 @@ enum OpenWeatherEndpoint: APIEndpoint {
     
     var path: String {
         switch self {
-        case .current: 
+        case .current:
             "/data/2.5/weather"
         case .weatherIcon(let iconName):
             "/img/wn/\(iconName)@2x.png"
-        }
-    }
-    
-    var httpMethod: HTTPMethod {
-        switch self {
-        case .current: HTTPMethod.get
-        case .weatherIcon: HTTPMethod.get
-        }
-    }
-    
-    var headers: [String : String]? {
-        switch self {
-        default: return nil
         }
     }
     

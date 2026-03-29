@@ -8,6 +8,7 @@ import Alamofire
 import Foundation
 
 final class OpenWeatherManagerAF: NetworkingManager {
+    
     private let session: Session
     
     init(session: Session = .default) {
@@ -30,6 +31,7 @@ final class OpenWeatherManagerAF: NetworkingManager {
         let imageResponse = await imageRequest.serializingData().response
         return try handleResponse(imageResponse)
     }
+    
 }
 
 //MARK: - Private methods
@@ -42,7 +44,7 @@ private extension OpenWeatherManagerAF {
             throw mapError(error, statusCode: error.responseCode)
         }
     }
-
+    
     func mapError(_ error: AFError, statusCode: Int?) -> NetworkError {
         if let code = statusCode, !(200...299).contains(code) {
             return .invalidResponse(statusCode: code)

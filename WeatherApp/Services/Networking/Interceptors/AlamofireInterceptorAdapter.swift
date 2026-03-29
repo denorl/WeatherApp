@@ -9,6 +9,7 @@ import Foundation
 import Alamofire
 
 final class AlamofireInterceptorAdapter: Alamofire.RequestInterceptor {
+    
     private let baseInterceptor: RequestInterceptor
     
     init(baseInterceptor: RequestInterceptor) {
@@ -18,7 +19,6 @@ final class AlamofireInterceptorAdapter: Alamofire.RequestInterceptor {
     func adapt(_ urlRequest: URLRequest,
                for session: Session,
                completion: @escaping (Result<URLRequest, Error>) -> Void) {
-        
         do {
             let adaptedRequest = try baseInterceptor.adapt(urlRequest)
             completion(.success(adaptedRequest))

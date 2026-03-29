@@ -10,6 +10,7 @@ import Alamofire
 
 protocol WeatherViewProtocol: AnyObject {
     func updateUI(with weatherViewModel: WeatherViewModel)
+    func displayErrorMessage(_ errorMessage: String)
     func toggleActivityIndicator(on: Bool)
 }
 
@@ -63,6 +64,10 @@ extension WeatherViewController: WeatherViewProtocol {
             activityIndicatorView.isHidden = true
             activityIndicatorView.stopAnimating()
         }
+    }
+    
+    func displayErrorMessage(_ errorMessage: String) {
+        presentAlert(errorMessage: errorMessage)
     }
 }
 

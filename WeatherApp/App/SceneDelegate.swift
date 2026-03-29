@@ -35,9 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let locationManager = LocationManager()
         let authInterceptor = OpenWeatherAuthInterceptor()
-        let alamofireInterceptor = AlamofireInterceptorAdapter(baseInterceptor: authInterceptor)
-        let afSession = Session(interceptor: alamofireInterceptor)
-        let networkingManager = OpenWeatherManagerAF(session: afSession)
+        let networkingManager = OpenWeatherManager(interceptor: authInterceptor)
         
         let presenter = WeatherPresenter(
             networkingManager: networkingManager,

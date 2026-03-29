@@ -16,6 +16,7 @@ protocol WeatherPresenterProtocol {
 
 @MainActor
 final class WeatherPresenter: WeatherPresenterProtocol {
+    
     weak var view: WeatherViewProtocol?
     
     let networkingManager: NetworkingManager
@@ -41,17 +42,18 @@ final class WeatherPresenter: WeatherPresenterProtocol {
                 let weatherData: WeatherResponse = try await networkingManager.fetch(with: request)
                 
                 guard let icon = weatherData.weather.first?.icon else { return }
-                
                 let weatherIcon = WeatherTheme.weatherIcon(for: icon)
+                
                 let viewModel =  mapDataToViewModel(weatherData, icon: weatherIcon)
                 
                 view?.toggleActivityIndicator(on: false)
                 view?.updateUI(with: viewModel)
-            } catch {
-                print(error.localizedDescription)
+            } catch let error as NetworkError {
+                view?.displayErrorMessage(error.userMessage)
             }
         }
     }
+    
 }
 
 //MARK: - LocationManagerDelegate
