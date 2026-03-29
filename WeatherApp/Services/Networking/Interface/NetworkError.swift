@@ -12,6 +12,7 @@ enum NetworkError: LocalizedError {
     case invalidResponse(statusCode: Int)
     case decodingError(Error)
     case noInternet
+    case unauthorized
     case unknown
 
     var errorDescription: String? {
@@ -26,6 +27,8 @@ enum NetworkError: LocalizedError {
             return "Failed to parse the weather data. \(error.localizedDescription)"
         case .noInternet:
             return "No internet connection detected."
+        case .unauthorized:
+            return ""
         case .unknown:
             return "An unexpected error occurred."
         }

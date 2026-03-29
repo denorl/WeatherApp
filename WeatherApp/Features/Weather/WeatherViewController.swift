@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 protocol WeatherViewProtocol: AnyObject {
     func updateUI(with weatherViewModel: WeatherViewModel)
@@ -26,21 +27,7 @@ final class WeatherViewController: UIViewController {
     //MARK: - View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupPresenter()
         presenter?.viewDidLoad()
-    }
-    
-    //MARK: - Presenter setup
-    private func setupPresenter() {
-        let locationManager = LocationManager()
-        let authInterceptor = OpenWeatherAuthInterceptor()
-        let networkingManager = OpenWeatherManager(interceptor: authInterceptor)
-        
-        presenter = WeatherPresenter(
-            networkingManager: networkingManager,
-            locationManager: locationManager
-        )
-        presenter?.view = self
     }
 
     //MARK: - IBActions
@@ -54,7 +41,7 @@ extension WeatherViewController: WeatherViewProtocol {
     func updateUI(with weatherViewModel: WeatherViewModel) {
         locationLabel.text = weatherViewModel.locality
         temperatureLabel.text = weatherViewModel.temperature
-        feelsLikeLabel.text =  weatherViewModel.feelsLike
+        feelsLikeLabel.text =  "Feels like: \(weatherViewModel.feelsLike)"
         humidityLabel.text = weatherViewModel.humidity
         pressureLabel.text = weatherViewModel.pressure
         

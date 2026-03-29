@@ -6,17 +6,19 @@
 //
 import Foundation
 
-protocol RequestInterceptor {
-    func adapt(_ request: URLRequest) -> URLRequest
+protocol RequestInterceptor: Sendable {
+    func adapt(_ request: URLRequest) throws -> URLRequest
 }
 
 struct OpenWeatherAuthInterceptor: RequestInterceptor {
-    func adapt(_ request: URLRequest) -> URLRequest {
+    func adapt(_ request: URLRequest) throws -> URLRequest {
         guard let url = request.url else { return request }
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         
         let apiKey = APIConfig.apiKey
+        
+        guard !apiKey.isEmpty else { throw NetworkError.unauthorized }
         
         var queryItems = components?.queryItems ?? []
         queryItems.insert(URLQueryItem(name: "appid", value: apiKey), at: 0)
@@ -28,3 +30,4 @@ struct OpenWeatherAuthInterceptor: RequestInterceptor {
         return authenticatedRequest
     }
 }
+
